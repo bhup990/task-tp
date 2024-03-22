@@ -25,14 +25,14 @@ export const Dashboard = () => {
     return (
         <div className='dashboard'>
             <h1>Dashboard</h1>
-            <header class="navigation">
+            <header className="navigation">
                 <nav>
                     <a href="/">Home</a>
                     <a href="/about">About</a>
                     <a href="/services">Services</a>
                     <a href="/contact">Contact</a>
                 </nav>
-                <a href="/" class="logout" >Logout</a>
+                <a href="/" className="logout" >Logout</a>
             </header>
 
             <h2>Welcome to the dashboard!</h2>

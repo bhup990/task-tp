@@ -1,9 +1,7 @@
-'use client'
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+// import { useRouter } from 'next/router';
 
 const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
-  // const route = useRouter();
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -12,70 +10,66 @@ const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
     state: '',
     city_id: '',
     district: '',
-    isactive: 1 
+    isactive: 1
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    full_name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    state: '',
+    city_id: '',
+    district: ''
+  });
+
+  // const router = useRouter();
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    let error = '';
+    switch (name) {
+      case 'email':
+        const validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        error = !validEmailRegex.test(value) ? 'Invalid email address' : '';
+        break;
+      case 'password':
+        error = value.length < 6 ? 'Password must be at least 6 characters long' : '';
+        break;
+      case 'confirmPassword':
+        error = value !== formData.password ? 'Passwords do not match' : '';
+        break;
+      case 'full_name':
+        error = value.length < 2 ? 'Name must be at least 2 characters long' : '';
+        break;
+      case 'state':
+        error = value === '' ? 'State is required' : '';
+        break;
+      case 'city_id':
+        error = value === '' ? 'City is required' : '';
+        break;
+      case 'district':
+        error = value === '' ? 'District is required' : '';
+        break;
+      default:
+        break;
+    }
+    setErrors({ ...errors, [name]: error });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const hasErrors = Object.values(errors).some(error => error !== '');
 
-    // Custom validation logic
-    const errors = {};
-    if (!formData.full_name.trim()) {
-      errors.full_name = 'Name is required';
-    }
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    }
-    // Add email format validation if needed
-    if (!formData.password.trim()) {
-      errors.password = 'Password is required';
-    }
-    if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match';
-    }
-    if (!formData.state.trim()) {
-      errors.state = 'State is required';
-    }
-    if (!formData.city_id.trim()) {
-      errors.city_id = 'City is required';
-    }
-    if (!formData.district.trim()) {
-      errors.district = 'District is required';
-    }
-
-    if (Object.keys(errors).length === 0) {
-      localStorage.setItem('email', JSON.stringify(formData.email));
-      fetch('http://localhost:3000/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            return res.json();
-          } else {
-            throw new Error('Failed to register');
-          }
-        })
-        .then((data) => {
-          handleActiveTab(true);
-          // route.push('/dashboard');
-          window.location.href = '/dashboard';
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          // Handle registration failure here
-        });
+    if (!hasErrors) {
+      // router.push('/dashboard');
+      window.location.href='/dashboard';
     } else {
-      setErrors(errors);
+      console.log('Please fix all errors before submitting the form.');
     }
   };
 

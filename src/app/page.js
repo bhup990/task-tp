@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
-import LoginForm from "../../components/loginform/page";
-import RegisterForm from "../../components/registerform/page";
+import LoginForm from "./components/loginform/page";
+import RegisterForm from "./components/registerform/page";
 
 export default function Home() {
   const [active, setActive] = useState(false);

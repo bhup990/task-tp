@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const LoginForm = ({ onLogin, handleActiveTab, active }) => {
   const [formData, setFormData] = useState({
@@ -9,25 +9,37 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
   const [apiError, setApiError] = useState('');
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    // Update form data
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Validate input
+    const newErrors = { ...errors };
+    if (name === 'email') {
+      newErrors.email = !value.trim() ? 'Email is required' : '';
+    } else if (name === 'password') {
+      newErrors.password = !value.trim() ? 'Password is required' : '';
+    }
+    setErrors(newErrors);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Custom validation logic
-    const errors = {};
+    const newErrors = {};
     if (!formData.email.trim()) {
-      errors.email = 'Email is required';
+      newErrors.email = 'Email is required';
     }
     if (!formData.password.trim()) {
-      errors.password = 'Password is required';
+      newErrors.password = 'Password is required';
     }
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(newErrors).length === 0) {
       fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,7 +61,7 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
           setApiError('Failed to login');
         });
     } else {
-      setErrors(errors);
+      setErrors(newErrors);
     }
   };
 
@@ -82,7 +94,7 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
       </div>
       <button type="submit">Login</button>
       <p><button type='button' onClick={handleSwitchRegister}>For Register</button></p>
-      {apiError && <p>{apiError}</p>}
+      {apiError && <p style={{ color: 'red' }}>{apiError}</p>}
     </form>
   );
 };
