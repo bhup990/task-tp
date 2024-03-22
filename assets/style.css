@@ -28,6 +28,7 @@ main section .wrapper .forms-wrapper button {
   font-size: 1rem;
   padding: 7px 30px;
   border-radius: 4px;
+  cursor: pointer;
 }
 main section .wrapper .forms-wrapper .form-group {
   display: flex;
@@ -38,7 +39,8 @@ main section .wrapper .forms-wrapper .form-group label {
   display: flex;
   flex-direction: column;
 }
-main section .wrapper .forms-wrapper .form-group input, main section .wrapper .forms-wrapper .form-group select {
+main section .wrapper .forms-wrapper .form-group input,
+main section .wrapper .forms-wrapper .form-group select {
   border: 1px solid silver;
   font-size: 1rem;
   padding: 5px;
@@ -53,4 +55,36 @@ main .active {
 }
 main .inactive {
   display: none !important;
+}
+
+.navigation {
+  background-color: #333;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+}
+.navigation a:hover {
+  background-color: #ddd;
+}
+.navigation .logout {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+}
+.navigation .logout:hover {
+  background-color: #ddd;
+}
+
+.dashboard {
+  text-align: center;
+  margin-top: 5rem;
 }/*# sourceMappingURL=style.css.map */

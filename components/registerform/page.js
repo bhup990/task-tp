@@ -1,15 +1,18 @@
+'use client'
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
+  // const route = useRouter();
   const [formData, setFormData] = useState({
     full_name: '',
-    email: '', 
+    email: '',
     password: '',
     confirmPassword: '',
     state: '',
     city_id: '',
     district: '',
-    isactive:1
+    isactive: 1 
   });
   const [errors, setErrors] = useState({});
 
@@ -25,52 +28,56 @@ const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
 
     // Custom validation logic
     const errors = {};
-    if (!formData.full_name || !formData.full_name.trim()) {
+    if (!formData.full_name.trim()) {
       errors.full_name = 'Name is required';
     }
-    if (!formData.email || !formData.email.trim()) {
+    if (!formData.email.trim()) {
       errors.email = 'Email is required';
     }
     // Add email format validation if needed
-    if (!formData.password || !formData.password.trim()) {
+    if (!formData.password.trim()) {
       errors.password = 'Password is required';
     }
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = 'Passwords do not match';
     }
-    if (!formData.state || !formData.state.trim()) {
+    if (!formData.state.trim()) {
       errors.state = 'State is required';
     }
-    if (!formData.city_id || !formData.city_id.trim()) {
+    if (!formData.city_id.trim()) {
       errors.city_id = 'City is required';
     }
-    if (!formData.district || !formData.district.trim()) {
+    if (!formData.district.trim()) {
       errors.district = 'District is required';
     }
 
     if (Object.keys(errors).length === 0) {
-      console.log("formDataformData", formData)
+      localStorage.setItem('email', JSON.stringify(formData.email));
       fetch('http://localhost:3000/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
-        .then((res) => res.json())
-        .then((results) => {
-          if(results.status === 200){
-            route
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error('Failed to register');
           }
         })
-
-        .catch((err) => { console.log(err) })
+        .then((data) => {
+          handleActiveTab(true);
+          // route.push('/dashboard');
+          window.location.href = '/dashboard';
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          // Handle registration failure here
+        });
     } else {
       setErrors(errors);
     }
   };
-
-  const handleSwitchLogin = () => {
-    handleActiveTab(false);
-  }
 
   return (
     <form onSubmit={handleSubmit} className={`${!active ? 'inactive' : 'active'}`}>
@@ -156,8 +163,8 @@ const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
         </select>
         {errors.district && <span>{errors.district}</span>}
       </div>
-      <button type="submit" onClick={handleSwitchLogin}>Register</button>
-      <p><button type='button' onClick={handleSwitchLogin}>Login</button></p>
+      <button type='submit'>Register</button>
+      <p><button type='button' onClick={() => handleActiveTab(true)}>Login</button></p>
     </form>
   );
 };

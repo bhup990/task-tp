@@ -1,8 +1,6 @@
-'use client'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const LoginForm = ({ onLogin, handleActiveTab, active }) => {
-  const [actives, setActive] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -22,33 +20,34 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
 
     // Custom validation logic
     const errors = {};
-    if (!formData.email || !formData.email.trim()) {
+    if (!formData.email.trim()) {
       errors.email = 'Email is required';
     }
-    if (!formData.password || !formData.password.trim()) {
+    if (!formData.password.trim()) {
       errors.password = 'Password is required';
     }
 
     if (Object.keys(errors).length === 0) {
-      try {
-        const response = await fetch('http://localhost:3000/api/user');
-        if (!response.ok) {
-          throw new Error('Failed to fetch');
-        }
-        const userData = await response.json();
-        
-        console.log('userDatauserData', userData)
-
-        // Compare input values with data from API
-        if (userData.email === formData.email && userData.password === formData.password) {
-          onLogin(formData);
-        } else {
-          setApiError('Invalid email or password');
-        }
-      } catch (error) {
-        console.error('Error fetching data from API:', error);
-        setApiError('Failed to fetch user data');
-      }
+      fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error('Failed to login');
+          }
+        })
+        .then((data) => {
+          localStorage.setItem('email', JSON.stringify(formData.email));
+          window.location.href = '/dashboard';
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setApiError('Failed to login');
+        });
     } else {
       setErrors(errors);
     }
@@ -56,7 +55,7 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
 
   const handleSwitchRegister = () => {
     handleActiveTab(true);
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className={`${active ? 'inactive' : 'active'}`}>
