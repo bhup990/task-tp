@@ -22,6 +22,7 @@ main section .wrapper .forms-wrapper {
   min-height: 300px;
   background-color: #f8ea8a;
   padding: 1rem;
+  position: relative;
 }
 main section .wrapper .forms-wrapper button {
   border: 1px solid silver;
@@ -29,6 +30,19 @@ main section .wrapper .forms-wrapper button {
   padding: 7px 30px;
   border-radius: 4px;
   cursor: pointer;
+}
+main section .wrapper .forms-wrapper button.linking {
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  color: blue;
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  bottom: 20%;
+}
+main section .wrapper .forms-wrapper button.linking.register {
+  bottom: 10px;
 }
 main section .wrapper .forms-wrapper .form-group {
   display: flex;

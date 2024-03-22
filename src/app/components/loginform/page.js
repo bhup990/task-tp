@@ -11,13 +11,11 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Update form data
     setFormData({
       ...formData,
       [name]: value
     });
 
-    // Validate input
     const newErrors = { ...errors };
     if (name === 'email') {
       newErrors.email = !value.trim() ? 'Email is required' : '';
@@ -93,7 +91,7 @@ const LoginForm = ({ onLogin, handleActiveTab, active }) => {
         {errors.password && <span>{errors.password}</span>}
       </div>
       <button type="submit">Login</button>
-      <p><button type='button' onClick={handleSwitchRegister}>For Register</button></p>
+      <p><button type='button' onClick={handleSwitchRegister} className='linking'>For Register</button></p>
       {apiError && <p style={{ color: 'red' }}>{apiError}</p>}
     </form>
   );

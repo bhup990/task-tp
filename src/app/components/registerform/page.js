@@ -125,7 +125,6 @@ const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
           <option value="">Select State</option>
           <option value="state1">State 1</option>
           <option value="state2">State 2</option>
-          {/* Add more options as needed */}
         </select>
         {errors.state && <span>{errors.state}</span>}
       </div>
@@ -139,7 +138,6 @@ const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
           <option value="">Select City</option>
           <option value="city1">City 1</option>
           <option value="city2">City 2</option>
-          {/* Add more options as needed */}
         </select>
         {errors.city_id && <span>{errors.city_id}</span>}
       </div>
@@ -153,12 +151,11 @@ const RegisterForm = ({ onRegister, handleActiveTab, active }) => {
           <option value="">Select District</option>
           <option value="district1">District 1</option>
           <option value="district2">District 2</option>
-          {/* Add more options as needed */}
         </select>
         {errors.district && <span>{errors.district}</span>}
       </div>
-      <button type='submit'>Register</button>
-      <p><button type='button' onClick={() => handleActiveTab(true)}>Login</button></p>
+      <button type='submit' >Register</button>
+      <p><button type='button' onClick={() => handleActiveTab(true)} className='linking register'>Login</button></p>
     </form>
   );
 };

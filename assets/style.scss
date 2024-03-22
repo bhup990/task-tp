@@ -17,6 +17,7 @@ main {
             align-items: center;
             flex-direction: column;
             background-color: #f8dd30;
+           
 
             .forms-wrapper {
                 width: 500px;
@@ -25,13 +26,27 @@ main {
                 min-height: 300px;
                 background-color: #f8ea8a;
                 padding: 1rem;
-
+                position: relative;
                 button {
                     border: 1px solid silver;
                     font-size: 1rem;
                     padding: 7px 30px;
                     border-radius: 4px;
                     cursor: pointer;
+                    &.linking{
+                        border: none;
+                        background: transparent;
+                        text-decoration: underline;
+                        color: blue;
+                        font-size: 14px;
+                        position: absolute;
+                        right: 0;
+                        bottom: calc(100% - 80%);
+
+                        &.register{
+                            bottom: 10px;
+                        }
+                    }
                 }
 
                 .form-group {
@@ -52,12 +67,6 @@ main {
                         border-radius: 6px;
                     }
                 }
-
-                .login-wrapper {
-                    // display: none;
-                }
-
-                .register-wrapper {}
             }
 
         }
